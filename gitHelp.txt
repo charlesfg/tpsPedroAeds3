@@ -1,0 +1,10 @@
+# para ver se tem algo de novo no repositório
+git pull
+# ver se tem alguma alteracao no repositório
+git status
+# para adicionar novos arquivos, pastas, etc
+git add (nome do arquivo)
+# salvar alteracoes no repositorio, primeiro git add (SEMPRE, é por alteração, e não arquivo igual o svn), depois commit
+git commit -m "Mensagem qualquer"
+# Enviar para o servidor central
+git push origin master
