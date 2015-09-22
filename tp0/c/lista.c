@@ -13,14 +13,14 @@ int Vazia(TipoLista Lista)
 { return (Lista.Primeiro == Lista.Ultimo);
 }
 
-void Insere(TipoString x, TipoLista *Lista)
+void Insere(TipoPalavra x, TipoLista *Lista)
 { Lista -> Ultimo -> Prox = (TipoApontador) malloc(sizeof(TipoCelula));
   Lista -> Ultimo = Lista -> Ultimo -> Prox;
   Lista -> Ultimo -> Item = x;
   Lista -> Ultimo -> Prox = NULL;
 }
 
-void Retira(TipoApontador p, TipoLista *Lista, TipoString *Item)
+void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
 { /*  ---   Obs.: o item a ser retirado e  o seguinte ao apontado por  p --- */
   TipoApontador q;
   if (Vazia(*Lista) || p == NULL || p -> Prox == NULL)

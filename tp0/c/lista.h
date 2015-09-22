@@ -7,16 +7,16 @@ typedef int TipoChave;
 
 typedef struct {
     int Chave;
-    char *strg;
+    char *plv;
     int tamanho;
-} TipoItem;
+} TipoPalavra; // antigo TipoItem
 
-typedef struct TipoItem TipoString;
+//typedef struct TipoItem TipoPalavra;
 
 typedef struct TipoCelula *TipoApontador;
 
 typedef struct TipoCelula {
-  TipoString Item;
+  TipoPalavra Item;
   TipoApontador Prox;
 } TipoCelula;
 
@@ -30,8 +30,8 @@ void FLVazia(TipoLista *Lista);
 
 int Vazia(TipoLista Lista);
 
-void Insere(TipoString x, TipoLista *Lista);
+void Insere(TipoPalavra x, TipoLista *Lista);
 
-void Retira(TipoApontador p, TipoLista *Lista, TipoString *Item);
+void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item);
 
 void Imprime(TipoLista Lista);
