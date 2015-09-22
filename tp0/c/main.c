@@ -47,12 +47,9 @@ void busca_anagramas ()
 void le_linha (TipoLista *lista)
 {
     char linha[MAX + 1]; // tamanho maximo
-    char *token; 
-
+    char *token;
     TipoPalavra pToken;
-    
-    const char delim[] = " ";
-    
+    const char delim[] = " \n"; // delimitadores: espaco (" ") e quebra de linha (\n)
     int i = 0; // contador para a Chave de cada palavra
 
     // le a linha da entrada padrao (stdin) e armazena em 'linha'
@@ -60,9 +57,6 @@ void le_linha (TipoLista *lista)
 
     // pega o primeiro token
     token = strtok(linha, delim);
-
-    // imprime a palavra lida
-    fprintf(stdout, " %s\n", token );
 
     // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
     pToken.Chave = i;
@@ -80,9 +74,6 @@ void le_linha (TipoLista *lista)
     {
         i++; // incrementa o contador para as Chaves
 
-        // imprime a palavra lida
-        fprintf(stdout, " %s\n", token );
-
         // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
         pToken.Chave = i;
         pToken.tamanho = strlen(token);
@@ -90,9 +81,6 @@ void le_linha (TipoLista *lista)
 
         // copia o conteudo do token para o pToken
         strcpy( pToken.plv , token);
-
-        // imprime a palavra copiada
-        fprintf(stdout, " %s\n", pToken.plv );
 
         //insere palavra na lista
         Insere(pToken, lista);
@@ -105,26 +93,30 @@ void le_linha (TipoLista *lista)
 int main()
 {
     int i, num_listas = 0; // 1 <= n <= 10
-    TipoLista *lista_palavras;
-    FLVazia(lista_palavras);
+    char quebra_linha;
 
     // le da entrada padrao (stdin) a quantidade de listas de palavras
     fscanf(stdin, "%d", &num_listas);
 
+    fscanf(stdin, "%c", &quebra_linha);
+
     // processa o programa para cada lista
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < num_listas; i++)
     {
-        fprintf(stdout, "Lista n: %d\n", i+1); // contador de referencia para as listas
+        fprintf(stdout, "\n  >> Lista # %d\n", i+1); // contador de referencia para as listas
+
+        TipoLista *lista_palavras; // declaracao de uma nova lista de palavras
+        FLVazia(lista_palavras); // inicializa a nova lista
 
         le_linha(lista_palavras); // le a linha e insere as palavras na lista
 
+        Imprime(lista_palavras);
+
         // busca_anagramas(); // chama a funcao principal
 
-        FLVazia(lista_palavras); //
+        //free(lista_palavras); // ERRO: segfault. PQ?
 
     }
-
-    free(lista_palavras); // ERRO: segfault. PQ?
 
     return 0;
 }

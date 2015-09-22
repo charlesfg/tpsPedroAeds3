@@ -34,4 +34,4 @@ void Insere(TipoPalavra x, TipoLista *Lista);
 
 void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item);
 
-void Imprime(TipoLista Lista);
+void Imprime(TipoLista *Lista);

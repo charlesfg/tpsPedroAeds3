@@ -34,11 +34,12 @@ void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
   free(q);
 }
 
-void Imprime(TipoLista Lista)
+void Imprime(TipoLista *Lista)
 { TipoApontador Aux;
-  Aux = Lista.Primeiro -> Prox;
+  Aux = Lista -> Primeiro -> Prox;
   while (Aux != NULL)
-    { printf("%d\n", Aux -> Item.Chave);
+    {
+      fprintf(stdout, "Chave: %d - Palavra: %s - Tam: %d\n", Aux->Item.Chave, Aux->Item.plv, Aux->Item.tamanho);
       Aux = Aux -> Prox;
     }
 }
