@@ -47,8 +47,12 @@ void busca_anagramas ()
 void le_linha (TipoLista *lista)
 {
     char linha[MAX + 1]; // tamanho maximo
-    char *token; TipoPalavra pToken;
+    char *token; 
+
+    TipoPalavra pToken;
+    
     const char delim[] = " ";
+    
     int i = 0; // contador para a Chave de cada palavra
 
     // le a linha da entrada padrao (stdin) e armazena em 'linha'
@@ -61,15 +65,15 @@ void le_linha (TipoLista *lista)
     fprintf(stdout, " %s\n", token );
 
     // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
-    pToken->Chave = i;
-    pToken->tamanho = strlen(token);
-    pToken->plv = (char*) malloc( pToken->tamanho * sizeof(char) );
+    pToken.Chave = i;
+    pToken.tamanho = strlen(token);
+    pToken.plv = (char*) malloc( pToken.tamanho * sizeof(char) );
 
     // copia o conteudo do token para o pToken
-    strcpy(pToken->plv , token);
+    strcpy(pToken.plv , token);
 
     // insere palavra na lista
-    Insere(pToken->plv, lista);
+    Insere(pToken, lista);
 
     // percorre os tokens restantes
     while( token != NULL )
@@ -80,18 +84,18 @@ void le_linha (TipoLista *lista)
         fprintf(stdout, " %s\n", token );
 
         // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
-        pToken->Chave = i;
-        pToken->tamanho = strlen(token);
-        pToken->plv = (char*) malloc( pToken->tamanho * sizeof(char) );
+        pToken.Chave = i;
+        pToken.tamanho = strlen(token);
+        pToken.plv = (char*) malloc( pToken.tamanho * sizeof(char) );
 
         // copia o conteudo do token para o pToken
-        strcpy( pToken->plv , token);
+        strcpy( pToken.plv , token);
 
         // imprime a palavra copiada
-        fprintf(stdout, " %s\n", pToken->plv );
+        fprintf(stdout, " %s\n", pToken.plv );
 
         //insere palavra na lista
-        Insere(pToken->plv, lista);
+        Insere(pToken, lista);
 
         // processa o proximo token
         token = strtok(NULL, delim);

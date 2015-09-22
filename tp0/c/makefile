@@ -20,5 +20,7 @@ all: $(PROG1)
 $(PROG1): $(SRC1) $(SRC2)
 	$(CC) $(CFLAGS) $(SRC1) $(SRC2) -o $(PROG1) 
 
+run:
+	cat entrada.txt | ./tp0
 clean:
 	rm -f *.o*~ $(PROG1)
