@@ -1,3 +1,12 @@
+/* ******************************************************************
+        lista.c
+    Author: Pedro Mendes
+
+    >> TAD Lista Encadeada
+    TP0 - Anagramas (Manipulacao de Strings)
+    Data: Setembro/2015
+****************************************************************** */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "lista.h"
@@ -7,6 +16,7 @@ void FLVazia(TipoLista *Lista)
 { Lista -> Primeiro = (TipoApontador) malloc(sizeof(TipoCelula));
   Lista -> Ultimo = Lista -> Primeiro;
   Lista -> Primeiro -> Prox = NULL;
+  Lista -> qtde_elementos = 0;
 }
 
 int Vazia(TipoLista Lista)

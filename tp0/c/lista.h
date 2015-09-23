@@ -1,7 +1,16 @@
+/* ******************************************************************
+        lista.h
+    Author: Pedro Mendes
+
+    >> TAD Lista Encadeada
+    TP0 - Anagramas (Manipulacao de Strings)
+    Data: Setembro/2015
+****************************************************************** */
+
 #include <stdlib.h>
 #include <stdio.h>
 
-/* ========================================================================= */
+// ========================================================================= //
 
 typedef int TipoChave;
 
@@ -9,9 +18,7 @@ typedef struct {
     int Chave;
     char *plv;
     int tamanho;
-} TipoPalavra; // antigo TipoItem
-
-//typedef struct TipoItem TipoPalavra;
+} TipoPalavra;
 
 typedef struct TipoCelula *TipoApontador;
 
@@ -22,9 +29,10 @@ typedef struct TipoCelula {
 
 typedef struct {
   TipoApontador Primeiro, Ultimo;
+  int qtde_elementos;
 } TipoLista;
 
-/* ========================================================================= */
+// ========================================================================= //
 
 void FLVazia(TipoLista *Lista);
 

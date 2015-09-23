@@ -1,97 +1,42 @@
+/* ******************************************************************
+        main.c
+    Author: Pedro Mendes
+
+    >> Programa principal
+    TP0 - Anagramas (Manipulacao de Strings)
+    Data: Setembro/2015
+****************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
 #include "lista.h"
-
-#define TRUE    1
-#define FALSE   0
-#define MAX     999999 //50000000 // 50 chars por palavra * 10^6 palavras
-
-
-// compara o tamanho de 2 palavras (strings) e retorna TRUE (1) caso verdadeiro
-int compara_tamanho (char *p1, char *p2)
-{
-    if ( strlen(p1) == strlen(p2) )
-        return TRUE;
-    else
-        return FALSE;
-}
-
-int compara_tamanho_string (TipoPalavra *p1, TipoPalavra *p2)
-{
-    if ( p1->tamanho == p2->tamanho )
-        return TRUE;
-    else
-        return FALSE;
-}
-
-void imprimir_anagramas ()
-{
-    //
-}
-
-void ordena_palavra (char *palavra, int *tam)
-{
-    //
-}
-
-void busca_anagramas ()
-{
-    //int i;
-
-    // ordena cada palavra. Assim, se as palavras forem iguais, significa que sao anagramas
-    // params qsort (lista_palavras, qtde_palavras, tamanho_palavras, funcao_compare)
-    //qsort(ataques, numAtaques, sizeof(TipoAtaque), compare );
-}
-
-void le_linha (TipoLista *lista)
-{
-    char linha[MAX + 1]; // tamanho maximo
-    char *token;
-    TipoPalavra pToken;
-    const char delim[] = " \n"; // delimitadores: espaco (" ") e quebra de linha (\n)
-    int i = 0; // contador para a Chave de cada palavra
-
-    // le a linha da entrada padrao (stdin) e armazena em 'linha'
-    fgets(linha, MAX, stdin);
-
-    // pega o primeiro token
-    token = strtok(linha, delim);
-
-    // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
-    pToken.Chave = i;
-    pToken.tamanho = strlen(token);
-    pToken.plv = (char*) malloc( pToken.tamanho * sizeof(char) );
-
-    // copia o conteudo do token para o pToken
-    strcpy(pToken.plv , token);
-
-    // insere palavra na lista
-    Insere(pToken, lista);
-
-    // percorre os tokens restantes
-    while( token != NULL )
-    {
-        i++; // incrementa o contador para as Chaves
-
-        // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
-        pToken.Chave = i;
-        pToken.tamanho = strlen(token);
-        pToken.plv = (char*) malloc( pToken.tamanho * sizeof(char) );
-
-        // copia o conteudo do token para o pToken
-        strcpy( pToken.plv , token);
-
-        //insere palavra na lista
-        Insere(pToken, lista);
-
-        // processa o proximo token
-        token = strtok(NULL, delim);
-    }
-}
+#include "anagramas.h"
 
 int main()
 {
+    /* ***** TESTE ORDENA UMA PALAVRA (VETOR) - OK ******
+    char c[] = "casa";
+    fprintf(stdout, "Palavra: %s - Tam: %d\n", c, strlen(c) );
+    ordena_palavra_vetor(c);
+    fprintf(stdout, "Palavra: %s - Tam: %d\n", c, strlen(c) ); */
+
+    /* ***** TESTE ORDENA UMA PALAVRA (STRUCT) - ERRO SEG FAULT ******
+    TipoPalavra *p;
+    p->Chave = 0;
+    strcpy(p->plv,p); //p->plv = "casa";
+    p->tamanho = (int) strlen(p->plv);
+    fprintf(stdout, "Chave: %d - Palavra: %s - Tam: %d\n", p->Chave, p->plv, p->tamanho);
+    ordena_palavra(p);
+    fprintf(stdout, "Chave: %d - Palavra: %s - Tam: %d\n", p->Chave, p->plv, p->tamanho);*/
+
+    // ***** PROGRAMA NORMAL ******
+    //struct timeval tempo; // contabilizara o tempo gasto para rodar o programa
+    //gettimeofday(&tempo,NULL);
+    //srand((unsigned int)tempo.tv_usec);
+
     int i, num_listas = 0; // 1 <= n <= 10
     char quebra_linha;
 
@@ -109,6 +54,8 @@ int main()
         FLVazia(lista_palavras); // inicializa a nova lista
 
         le_linha(lista_palavras); // le a linha e insere as palavras na lista
+
+        fprintf(stdout, "qtde palavras da lista: %d\n",lista_palavras->qtde_elementos);
 
         Imprime(lista_palavras);
 
