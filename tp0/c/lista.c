@@ -13,7 +13,8 @@
 
 
 void FLVazia(TipoLista *Lista)
-{ Lista -> Primeiro = (TipoApontador) malloc(sizeof(TipoCelula));
+{
+  Lista -> Primeiro = (TipoApontador) malloc(sizeof(TipoCelula));
   Lista -> Ultimo = Lista -> Primeiro;
   Lista -> Primeiro -> Prox = NULL;
   Lista -> qtde_elementos = 0;
@@ -28,6 +29,7 @@ void Insere(TipoPalavra x, TipoLista *Lista)
   Lista -> Ultimo = Lista -> Ultimo -> Prox;
   Lista -> Ultimo -> Item = x;
   Lista -> Ultimo -> Prox = NULL;
+  Lista -> qtde_elementos++;
 }
 
 void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
@@ -42,6 +44,7 @@ void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
   p -> Prox = q -> Prox;
   if (p -> Prox == NULL) Lista -> Ultimo = p;
   free(q);
+  Lista -> qtde_elementos--;
 }
 
 void Imprime(TipoLista *Lista)
@@ -53,53 +56,3 @@ void Imprime(TipoLista *Lista)
       Aux = Aux -> Prox;
     }
 }
-
-/* ========================================================================== //
-
-int main(int argc, char *argv[])
-{ struct timeval t;
-
-  TipoLista lista;
-  TipoItem item;
-  int vetor[MAX];
-  TipoApontador p;
-  int i, j, k, n;
-  float  tamanho=0;
-  gettimeofday(&t,NULL);
-  srand((unsigned int)t.tv_usec);
-  FLVazia(&lista);
-
-
-  //Gera uma permutacao aleatoria de chaves entre 1 e MAX//
-  for(i = 0; i < MAX; i++) vetor[i] = i + 1;
-  for(i = 0; i < MAX; i++)
-    { k =  (int) (10.0 * rand()/(RAND_MAX + 1.0));
-      j =  (int) (10.0 * rand()/(RAND_MAX + 1.0));
-      n = vetor[k];
-      vetor[k] = vetor[j];
-      vetor[j] = n;
-    }
-  //Insere cada chave na lista //
-  for (i = 0; i < MAX; i++)
-    { item.Chave = vetor[i];
-      Insere(item, &lista);
-      tamanho++;
-      printf("Inseriu: %d \n", item.Chave);
-    }
-  Imprime(lista);
-
-  //Retira cada chave da lista //
-  for(i = 0; i < MAX; i++)
-    { //escolhe uma chave aleatoriamente //
-      k = (int) ((tamanho) * rand() / (RAND_MAX + 1.0));
-      p = lista.Primeiro;
-      //retira chave apontada //
-      Retira(p, &lista, &item);
-      tamanho--;
-      printf("Retirou: %d\n", item.Chave);
-    }
-  Imprime (lista);
-  return(0);
-}
-
-// ========================================================================== */

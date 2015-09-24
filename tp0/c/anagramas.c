@@ -16,47 +16,32 @@
 
 #define TRUE    1
 #define FALSE   0
-#define MAX     999999 //50000000 // 50 chars por palavra * 10^6 palavras
+#define MAX     50000000 // 50 chars por palavra * 10^6 palavras
 
-// compara o tamanho de 2 palavras (strings) e retorna TRUE (1) caso verdadeiro
-int compara_tamanho (char *p1, char *p2)
+char ** ConverteLista(TipoLista *l)
 {
-    if ( strlen(p1) == strlen(p2) )
-        return TRUE;
-    else
-        return FALSE;
+    // aloca memoria dinamica para um vetor de caracteres
+    char **lista = (char**) malloc( l->qtde_elementos * sizeof(char*));
+
+    int i = 0;
+    TipoApontador Aux;
+    Aux = l->Primeiro->Prox;
+
+    // percorre os elementos da lista atraves do apontador Aux
+    while (Aux != NULL)
+    {
+        lista[i] = (char *) malloc(50 * sizeof(char)); // cada elemento do vetor eh uma string de ate 50 chars
+        strcpy(lista[i],Aux->Item.plv);
+        Aux = Aux -> Prox;
+        i++;
+    }
+
+    return lista;
 }
 
-int compara_tamanho_palavra (TipoPalavra *p1, TipoPalavra *p2)
-{
-    if ( p1->tamanho == p2->tamanho )
-        return TRUE;
-    else
-        return FALSE;
-}
-
-void imprimir_anagramas ()
-{
-    //
-}
-
-/* qsort struct comparision function (TipoPalavra p.plv)
-fonte: http://www.anyexample.com/programming/c/qsort__sorting_array_of_strings__integers_and_structs.xml
-ou http://pastie.org/783004 ou http://terminaldeinformacao.com/2013/05/10/ordenando-vetores-usando-linguagem-c/
-*/
-int compara_string(const void *a, const void *b)
-{
-    TipoPalavra *ia = (TipoPalavra *)a;
-    TipoPalavra *ib = (TipoPalavra *)b;
-
-    return strcmp(ia->plv, ib->plv);
-}
-
-void ordena_string (TipoLista *lista)
-{
-    //size_t lista_len = sizeof(lista) / sizeof (TipoCelula);
-
-}
+/* qsort: http://www.anyexample.com/programming/c/qsort__sorting_array_of_strings__integers_and_structs.xml
+ * ou http://pastie.org/783004 ou http://terminaldeinformacao.com/2013/05/10/ordenando-vetores-usando-linguagem-c
+ */
 
 // qsort struct comparision function (chars *c)
 int compara_chars_vetor(const void *a, const void *b)
@@ -73,28 +58,106 @@ void ordena_palavra_vetor (char *palavra)
     qsort (palavra, strlen(palavra), sizeof(char), compara_chars_vetor );
 }
 
-// qsort struct comparision function (TipoPalavra *c)
-int compara_chars(const void *a, const void *b)
+/* qsort C-string comparison function (ordem lexografica) */
+int cstring_cmp(const void *a, const void *b)
 {
-    TipoPalavra *ia = (TipoPalavra *)a;
-    TipoPalavra *ib = (TipoPalavra *)b;
+    const char **ia = (const char **)a;
+    const char **ib = (const char **)b;
 
-    return (*ia->plv > *ib->plv) ;
+    return strcmp(*ia, *ib); // negativo se (a < b), ZERO se iguais, positivo se (a > b)
 }
 
-// ordena uma palavra (string) de maneira crescente (a-z) - ERRO
-void ordena_palavra (TipoPalavra *palavra)
+void imprime_vetor_palavras(char ** vp, int t)
 {
-	qsort (palavra->plv, palavra->tamanho, sizeof(TipoPalavra), compara_chars );
+    int j = 0;
+    for(j = 0; j < t ; j++)
+    {
+        printf("Vetor[%d] - %s\n", j, vp[j]);
+    }
 }
 
-void busca_anagramas ()
+/* qsort int comparison function */
+int int_cmp(const void *a, const void *b)
 {
-/*    //int i;
+    const int *ia = (const int *)a; // casting pointer types
+    const int *ib = (const int *)b;
 
-    // ordena cada palavra. Assim, se as palavras forem iguais, significa que sao anagramas
-    // params qsort (lista_palavras, qtde_palavras, tamanho_palavras, funcao_compare)
-    qsort(ataques, numAtaques, sizeof(TipoAtaque), compare );*/
+    // Como queremos decrescente, invertemos a ordem
+    return *ib - *ia; // negativo se (b < a) e positivo se (b > a)
+}
+
+void imprime_anagramas (char ** vp, int t)
+{
+    int num_anagramas = 1; // variavel que armazenara o número de anagramas de cada grupo, ja inclui a primeira palavra
+    int *grupos_anagramas = calloc( t , sizeof(int) ); // vetor para armazenar as qtdes de cada grupo de anagramas
+
+    int i, j = 0;
+
+    // percorre o vetor exceto a ultima posicao, para nao correr o risco de sair do vetor
+    for (i = 0; i < t-1 ; i++)
+    {
+        if ( !strcmp(vp[i], vp[i+1]) )
+        {
+            num_anagramas++; // incrementa o contador se as palavras forem iguais
+        }
+        else
+            {
+                grupos_anagramas[j] = num_anagramas;
+                j++;
+                num_anagramas = 1; // reseta o contador para o proximo grupo
+            }
+    }
+    grupos_anagramas[j] = num_anagramas; // para o ultimo elemento
+
+    // ordena o vetor da qtde de anagramas em cada grupo, de maneira decrescente
+    qsort(grupos_anagramas, t, sizeof(int), int_cmp );
+
+    // imprime o grupo ordenado
+    for (j = 0; j < t; j++)
+    {
+        // se o grupo existir (contador >=1 sera impresso)
+        if (grupos_anagramas[j] != 0)
+        {
+            fprintf(stdout, "%d ", grupos_anagramas[j]);
+        }
+    }
+    fprintf(stdout, "\n");
+
+}
+
+void busca_anagramas (TipoLista *lista_palavras)
+{
+    // a lista de palavras do TipoLista sera convertido num vetor dinamico de strings
+    char ** vetor_palavras = ConverteLista(lista_palavras);
+
+    int vp_tamanho = lista_palavras->qtde_elementos; // tamanho do vetor de palavras
+
+    //fprintf(stdout, "qtde palavras da lista: %d\n",lista_palavras->qtde_elementos);
+
+    //Imprime(lista_palavras);
+
+    //fprintf(stdout,"\n Vetor Desordenado: \n");
+    //imprime_vetor_palavras(vetor_palavras,vp_tamanho);
+
+    // ordena as palavras no vetor
+    int j = 0;
+
+    for(j = 0; j < vp_tamanho ; j++)
+    {
+        ordena_palavra_vetor( vetor_palavras[j] );
+    }
+
+    //fprintf(stdout,"\n Vetor Ordenado: \n");
+    //imprime_vetor_palavras(vetor_palavras,vp_tamanho);
+    //fprintf(stdout,"\n");
+
+    // ordena lista de palavras
+    qsort( vetor_palavras, vp_tamanho, sizeof(char *), cstring_cmp);
+
+    //fprintf(stdout,"\n Lista Ordenada: \n");
+    //imprime_vetor_palavras(vetor_palavras, vp_tamanho);
+
+    imprime_anagramas(vetor_palavras, vp_tamanho);
 }
 
 void le_linha (TipoLista *lista)
@@ -111,23 +174,10 @@ void le_linha (TipoLista *lista)
     // pega o primeiro token
     token = strtok(linha, delim);
 
-    // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
-    pToken.Chave = i;
-    pToken.tamanho = strlen(token);
-    pToken.plv = (char*) malloc( pToken.tamanho * sizeof(char) );
-
-    // copia o conteudo do token para o pToken
-    strcpy(pToken.plv , token);
-
-    // insere palavra na lista
-    Insere(pToken, lista);
-
-    // percorre os tokens restantes
+    // percorre enquanto ainda houver tokens
     while( token != NULL )
     {
         i++; // incrementa o contador para as Chaves
-
-        lista->qtde_elementos++; // incrementa o contador de palavras na lista
 
         // atualiza as demais informacoes do TipoPalavra: Chave e Tamanho (alocado dinamicamente)
         pToken.Chave = i;
@@ -143,36 +193,4 @@ void le_linha (TipoLista *lista)
         // processa o proximo token
         token = strtok(NULL, delim);
     }
-}
-
-char ** ConverteLista(TipoLista * l)
-{
-
-    char **lista = (char**) malloc( l->qtde_elementos * sizeof(char*));
-
-    int i = 0;
-    TipoApontador Aux;
-    Aux = l -> Primeiro -> Prox;
-
-    while (Aux != NULL)
-    {
-        
-        lista[i] = (char *) malloc(50 * sizeof(char));
-        strcpy(lista[i],Aux->Item.plv);        
-        Aux = Aux -> Prox;
-        i++;
-    }
-
-    return lista;
-
-}
-
-
-void imprime_vetor_palavras(char ** vp, int t)
-{
-    int j = 0;
-    for(j = 0; j <= t ; j++){
-        printf("Vetor[%d] - %s\n", j, vp[j]);            
-    }
-
 }

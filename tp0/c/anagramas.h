@@ -38,5 +38,7 @@ void busca_anagramas ();
 
 void le_linha (TipoLista *lista);
 
-// Dado uma lista encadeada do TipoLista, retorna cum Vertor de Strings
+// Dado uma lista encadeada do TipoLista, retorna um Vetor de Strings
 char ** ConverteLista(TipoLista *Lista);
+
+void imprime_vetor_palavras(char ** vp, int t);
