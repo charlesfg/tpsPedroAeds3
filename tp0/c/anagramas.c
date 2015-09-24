@@ -54,7 +54,7 @@ int compara_string(const void *a, const void *b)
 
 void ordena_string (TipoLista *lista)
 {
-    size_t lista_len = sizeof(lista) / sizeof (TipoCelula);
+    //size_t lista_len = sizeof(lista) / sizeof (TipoCelula);
 
 }
 
@@ -90,11 +90,11 @@ void ordena_palavra (TipoPalavra *palavra)
 
 void busca_anagramas ()
 {
-    //int i;
+/*    //int i;
 
     // ordena cada palavra. Assim, se as palavras forem iguais, significa que sao anagramas
     // params qsort (lista_palavras, qtde_palavras, tamanho_palavras, funcao_compare)
-    //qsort(ataques, numAtaques, sizeof(TipoAtaque), compare );
+    qsort(ataques, numAtaques, sizeof(TipoAtaque), compare );*/
 }
 
 void le_linha (TipoLista *lista)
@@ -143,4 +143,36 @@ void le_linha (TipoLista *lista)
         // processa o proximo token
         token = strtok(NULL, delim);
     }
+}
+
+char ** ConverteLista(TipoLista * l)
+{
+
+    char **lista = (char**) malloc( l->qtde_elementos * sizeof(char*));
+
+    int i = 0;
+    TipoApontador Aux;
+    Aux = l -> Primeiro -> Prox;
+
+    while (Aux != NULL)
+    {
+        
+        lista[i] = (char *) malloc(50 * sizeof(char));
+        strcpy(lista[i],Aux->Item.plv);        
+        Aux = Aux -> Prox;
+        i++;
+    }
+
+    return lista;
+
+}
+
+
+void imprime_vetor_palavras(char ** vp, int t)
+{
+    int j = 0;
+    for(j = 0; j <= t ; j++){
+        printf("Vetor[%d] - %s\n", j, vp[j]);            
+    }
+
 }

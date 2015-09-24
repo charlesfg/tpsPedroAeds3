@@ -15,6 +15,27 @@
 #include "lista.h"
 #include "anagramas.h"
 
+/* qsort C-string comparison function */ 
+int cstring_cmp(const void *a, const void *b) 
+{ 
+    const char **ia = (const char **)a;
+    const char **ib = (const char **)b;
+    return strcmp(*ia, *ib);
+    /* strcmp functions works exactly as expected from
+    comparison function */ 
+} 
+
+/* qsort int comparison function */ 
+int int_cmp(const void *a, const void *b) 
+{ 
+    const int *ia = (const int *)a; // casting pointer types 
+    const int *ib = (const int *)b;
+    // Como queremos decrescente, invertemos a ordem
+    return *ib - *ia; 
+    /* integer comparison: returns negative if b > a 
+    and positive if a > b */ 
+} 
+
 int main()
 {
     /* ***** TESTE ORDENA UMA PALAVRA (VETOR) - OK ******
@@ -53,13 +74,37 @@ int main()
         TipoLista *lista_palavras; // declaracao de uma nova lista de palavras
         FLVazia(lista_palavras); // inicializa a nova lista
 
+        // Aqui só usamos lista encadeada para evitar alocação máxima 10^6 do pior caso
         le_linha(lista_palavras); // le a linha e insere as palavras na lista
+
+        char ** vetor_palavras = ConverteLista(lista_palavras);
+        // Tamanho do vetor palavras
+        int vp_tamanho = lista_palavras->qtde_elementos;
 
         fprintf(stdout, "qtde palavras da lista: %d\n",lista_palavras->qtde_elementos);
 
         Imprime(lista_palavras);
 
-        // busca_anagramas(); // chama a funcao principal
+printf("\n");
+        imprime_vetor_palavras(vetor_palavras,vp_tamanho);
+        
+        // Ordena Palavras no Vetor
+        int j = 0;
+        for(j = 0; j <= vp_tamanho ; j++){
+            ordena_palavra_vetor(vetor_palavras[j]);
+        }
+
+        imprime_vetor_palavras(vetor_palavras,vp_tamanho);
+        printf("\n");
+
+        // Ordena Lista 
+        qsort(vetor_palavras,vp_tamanho+1,sizeof(char *),cstring_cmp);
+
+        imprime_vetor_palavras(vetor_palavras,vp_tamanho);
+
+
+
+        //busca_anagramas(); // chama a funcao principal
 
         //free(lista_palavras); // ERRO: segfault. PQ?
 

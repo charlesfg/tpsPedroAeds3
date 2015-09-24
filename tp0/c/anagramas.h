@@ -37,3 +37,6 @@ void ordena_palavra (TipoPalavra *palavra);
 void busca_anagramas ();
 
 void le_linha (TipoLista *lista);
+
+// Dado uma lista encadeada do TipoLista, retorna cum Vertor de Strings
+char ** ConverteLista(TipoLista *Lista);
