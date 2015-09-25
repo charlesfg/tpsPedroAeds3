@@ -27,8 +27,6 @@ int main()
     // processa o programa para cada lista
     for (i = 0; i < num_listas; i++)
     {
-        //fprintf(stdout, "\n  >> Lista # %d\n", i+1); // contador de referencia para as listas
-
         TipoLista lista_palavras; // declaracao de uma nova lista de palavras
         FLVazia(&lista_palavras); // inicializa a nova lista
 
@@ -37,7 +35,8 @@ int main()
 
         busca_anagramas(&lista_palavras); // chama a funcao principal
 
-        //free(&lista_palavras);
+        if (i < num_listas-1)
+            fprintf(stdout, "\n"); // imprime uma quebra de linha ate antes de executar a ultima lista
     }
 
     return 0;

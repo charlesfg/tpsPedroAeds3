@@ -7,38 +7,29 @@
     Data: Setembro/2015
 ****************************************************************** */
 
-// compara o tamanho de 2 palavras (strings) e retorna TRUE (1) caso verdadeiro
-int compara_tamanho (char *p1, char *p2);
+// le uma linha da entrada padrao (stdin) e armazena as palavras na lista
+void le_linha (TipoLista *lista);
 
-int compara_tamanho_palavra (TipoPalavra *p1, TipoPalavra *p2);
-
-void imprimir_anagramas ();
-
-/* qsort struct comparision function (TipoPalavra p.plv)
-fonte: http://www.anyexample.com/programming/c/qsort__sorting_array_of_strings__integers_and_structs.xml
-ou http://pastie.org/783004 ou http://terminaldeinformacao.com/2013/05/10/ordenando-vetores-usando-linguagem-c/
-*/
-int compara_string(const void *a, const void *b);
-
-void ordena_string (TipoLista *lista);
+// dado uma lista encadeada do TipoLista, retorna um Vetor de Strings
+char ** ConverteLista(TipoLista *Lista);
 
 // qsort struct comparision function (chars *c)
 int compara_chars_vetor(const void *a, const void *b);
 
-// ordena uma palavra (string) de maneira crescente (a-z) - OK
+// ordena uma palavra (string) de maneira crescente (a-z)
 void ordena_palavra_vetor (char *palavra);
 
-// qsort struct comparision function (TipoPalavra *c)
-int compara_chars(const void *a, const void *b);
+// qsort C-string comparison function (ordem lexografica) //
+int cstring_cmp(const void *a, const void *b);
 
-// ordena uma palavra (string) de maneira crescente (a-z) - ERRO
-void ordena_palavra (TipoPalavra *palavra);
-
-void busca_anagramas ();
-
-void le_linha (TipoLista *lista);
-
-// Dado uma lista encadeada do TipoLista, retorna um Vetor de Strings
-char ** ConverteLista(TipoLista *Lista);
-
+// percorre um vetor de caracteres de tamanho 't' e imprime os elementos
 void imprime_vetor_palavras(char ** vp, int t);
+
+// qsort int comparison function //
+int int_cmp(const void *a, const void *b);
+
+// recebe um vetor de caracteres de tamanho 't', calcula os anagramas e imprime o resultado decrescentemente
+void imprime_anagramas (char ** vp, int t);
+
+// funcao principal que recebe uma lista de palavras e chama funcoes auxiliares para calcular e imprimir o resultado
+void busca_anagramas (TipoLista *lista_palavras);

@@ -32,7 +32,8 @@ void Insere(TipoPalavra x, TipoLista *Lista)
   Lista -> qtde_elementos++;
 }
 
-void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
+//void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
+void Retira(TipoApontador p, TipoLista *Lista)
 { /*  ---   Obs.: o item a ser retirado e  o seguinte ao apontado por  p --- */
   TipoApontador q;
   if (Vazia(*Lista) || p == NULL || p -> Prox == NULL)
@@ -40,7 +41,7 @@ void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item)
     return;
   }
   q = p -> Prox;
-  *Item = q -> Item;
+  // *Item = q -> Item;
   p -> Prox = q -> Prox;
   if (p -> Prox == NULL) Lista -> Ultimo = p;
   free(q);
@@ -55,4 +56,16 @@ void Imprime(TipoLista *Lista)
       fprintf(stdout, "Chave: %d - Palavra: %s - Tam: %d\n", Aux->Item.Chave, Aux->Item.plv, Aux->Item.tamanho);
       Aux = Aux -> Prox;
     }
+}
+
+void LiberaLista(TipoLista *Lista)
+{
+  TipoApontador Aux;
+  Aux = Lista -> Primeiro -> Prox;
+  while (Aux != NULL)
+    {
+      Retira(Aux, Lista); // eliminei o ultimo parametro, TipoItem
+      Aux = Aux -> Prox;
+    }
+  free(Lista);
 }

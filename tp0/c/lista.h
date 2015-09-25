@@ -40,6 +40,9 @@ int Vazia(TipoLista Lista);
 
 void Insere(TipoPalavra x, TipoLista *Lista);
 
-void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item);
+//void Retira(TipoApontador p, TipoLista *Lista, TipoPalavra *Item);
+void Retira(TipoApontador p, TipoLista *Lista);
 
 void Imprime(TipoLista *Lista);
+
+void LiberaLista(TipoLista *Lista);
