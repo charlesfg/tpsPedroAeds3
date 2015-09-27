@@ -144,17 +144,26 @@ void imprime_anagramas (char ** vp, int t)
     // ordena o vetor da qtde de anagramas em cada grupo, de maneira decrescente
     qsort(grupos_anagramas, t, sizeof(int), int_cmp );
 
-    // imprime o grupo ordenado
-    for (j = 0; j < (t-1) ; j++)
+    // imprime o grupo ordenado, se ele existir (contador >= 1)
+    for (j = 0; j < t ; j++)
     {
-        // se o grupo existir (contador >=1) sera impresso
-        if (grupos_anagramas[j] != 0)
+        // grupo atual existe e o seguinte tambem
+        if (grupos_anagramas[j] != 0 && grupos_anagramas[j+1] != 0)
         {
-            fprintf(stdout, "%d", grupos_anagramas[j]);
-
-            if (j < (t-3) )
-                fprintf(stdout, " "); // imprime um espaço ate antes do ultimo valor impresso
+            fprintf(stdout, "%d ", grupos_anagramas[j]);
         }
+
+        // grupo atual existe mas o seguinte NAO
+        else if (grupos_anagramas[j] != 0 && grupos_anagramas[j+1] == 0)
+            {
+                fprintf(stdout, "%d", grupos_anagramas[j]);
+            }
+
+            // grupo atual NAO existe e NEM o seguinte
+            else if (grupos_anagramas[j] == 0 && grupos_anagramas[j+1] == 0)
+                {
+                    break; // encerra o loop, pois os proximos elementos serao ZEROS (vetor ordenado decrescentemente)
+                }
     }
 }
 
