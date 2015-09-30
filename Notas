@@ -1,0 +1,10 @@
+Notas:
+    - Você deveria pensar em bibliotecas que possa usar nos tps futuros, por exemplo, um módulo chamado io.c/h que tenha funções que ajudem a ler linha (voltando uma lista de palavras), ou uma string. Tipo uma funcao:
+        char * readLine(FILE * stream)
+    -  Antes de fazer qualquer função, veja se ela já não existe na biblioteca, por exemplo, inicializar vetor com zeros o calloc(se não me engano) ja faz, mas existe função para isso
+    - Seu código está muito poluído, precisa organizar melhor
+    - A ideia do teste unitario é simples.  Você testa uma função e garante que ela está correta. Daí pra frente, não precisa mais testar ela. Assuma as precondicoes e teste as poscondicoes, ou seja. Voltando a funcao de ler linha, faca um testeLeLinha.c que tenha um main que ira testar SOMENTE a funcao de ler linha. Se esse programa funcionar, dai vc vai no programa principal e utilia a funcao sem medo. Nao ira precisar testar, comentar ela, nada. E se precisar alterar ela ou alguma coisa dela vc terá um programa separado só para testar ela. 
+    - SEMPRE faca um make, facilita sua própria vida
+    - Funções não devem ter efeitos colaterais, por exemplo, não se deve passar um valor X para dentro da função e ao retornar dessa função o valor de X ser alterado, geralmente usamos o valor de retorno para isso. Se precisar use struct para retorno. Ex. verifica_frase o vertor lid é alterado
+    - alfabeto declarado no main, mas para que? Só é usado dentro do verifica_frase! Coloca lá!
+    - Eu inverti a ordem da verificação, é mais eficiente e não dá repetição e não precisa de vetor auxiliar ...

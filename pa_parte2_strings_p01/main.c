@@ -1,5 +1,5 @@
 /* *****************************************************************************************************
-	PRAZO: QUARTA, 30-09-2015 as 23h55 
+	PRAZO: QUARTA, 30-09-2015 as 23h55
 
 URI Online Judge | 1551
 Frase Completa
@@ -109,24 +109,26 @@ void imprime_vetor_palavras_v2(char *vp)
 }
 
 // verifica quais chars do alfabeto estao presentes na frase e retorna a quantidade presente
-int verifica_frase (char *fr , char *alfab , int *lid)
+int verifica_frase (char *fr)
 {
+    char alfab[] = {"abcdefghijklmnopqrstuvwxyz"};
     int i, j, qtde_chars_lidos = 0;
 
     // percorre o texto ate encontrar o caractere especial de fim de string '\0'
-    for (i = 0; i != '\0'; i++)
+    for (j = 0; j < 26; j++)
     {
-        for (j = 0; j < 26; j++)
+        i = 0;
+        while(fr[i] != '\0')
         {
+
             if (fr[i] == alfab[j])
             {
-                lid[j] = 1;
                 qtde_chars_lidos++;
                 break; // nao precisa continuar o loop interno pois ja encontrou o char do alfabeto
             }
+            i++;
         }
     }
-
     return qtde_chars_lidos;
 }
 
@@ -134,13 +136,9 @@ int verifica_frase (char *fr , char *alfab , int *lid)
 void imprime_resultado (int n)
 {
     if (n == 26)
-    {
         fprintf(stdout, "frase completa\n"); // contem todas as letras do alfabeto
-    }
     else if (n >= 13 && n < 26)
-        {
             fprintf(stdout, "frase quase completa\n"); // contem pelo menos a metade das letras
-        }
         else
             fprintf(stdout, "frase mal elaborada\n");
 }
@@ -148,8 +146,8 @@ void imprime_resultado (int n)
 int main()
 {
     int i, num_casos_teste;
-    char frase[1001], alfabeto[] = {"abcdefghijklmnopqrstuvwxyz"}, c_aux;
-    int chars_lidos[26], num_chars_lidos;
+    char frase[1001], c_aux;
+    int num_chars_lidos;
 
     fscanf(stdin, "%d", &num_casos_teste); // le da entrada padrao o numero de casos de teste
 
@@ -159,19 +157,16 @@ int main()
     {
         fprintf(stdout, "\n Caso Teste #%d\n", i+1 ); // DEBUG INFO
 
-        inicializa_vetores(chars_lidos); // inicializa os valores para um novo caso de teste
-
         num_chars_lidos = 0; // reseta o contador do numero de caracteres lidos
 
-        le_frase(frase);                // le a frase da entrada padrao - jeito 1
-        //fgets(&frase, 1000, stdin);   // le a frase da entrada padrao - jeito 2
+        le_frase(frase);                // le a frase da entrada padrao
 
         fprintf(stdout, "\n frase: %s\n", frase); //imprime o vetor de palavras - DEBUG INFO
 
         //imprime_vetor_palavras(&frase, strlen(frase)); // DEBUG INFO
         //imprime_vetor_palavras_v2(&frase); // DEBUG INFO
 
-        num_chars_lidos = verifica_frase(frase, &alfabeto, &chars_lidos);
+        num_chars_lidos = verifica_frase(frase);
 
         fprintf(stdout, "\n num chars lidos: %d\n", num_chars_lidos); // DEBUG INFO
 
