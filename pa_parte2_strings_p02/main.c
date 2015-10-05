@@ -63,6 +63,8 @@ gi.r{hyz­-xx
 
 void criptografa_frase (char *frs, int tam)
 {
+    //fprintf(stdout, "\n\n Frase: %s - Tam: %d\n", frs, tam);
+
     // *** 1a PASSADA ***
 
     int i;
@@ -95,42 +97,37 @@ void criptografa_frase (char *frs, int tam)
 
     // *** 3a PASSADA ***
 
-    // se o vetor tiver uma qtde IMPAR de elementos
-    if ( tam % 2 != 0)
+    // percorre a segunda metade do vetor
+    for (i = (tam-1)/2; i < tam; i++)
     {
-        // percorre a segunda metade do vetor
-        for (i = (tam/2); i < tam; i++)
-        {
-            frs[i]--; // char deslocado 1 posicao pra esquerda, conforme tabela ASCII ( http://www.ascii-code.com/ )
-        }
+        frs[i]--; // char deslocado 1 posicao pra esquerda, conforme tabela ASCII ( http://www.ascii-code.com/ )
     }
-    else
-        // percorre a segunda metade do vetor
-        for (i = (tam/2 - 1); i < tam; i++)
-        {
-            frs[i]--; // char deslocado 1 posicao pra esquerda, conforme tabela ASCII ( http://www.ascii-code.com/ )
-        }
-
 
     // *** IMPRESSAO DO RESULTADO ***
 
-    fprintf(stdout, "%s\n", frs);
+    // percorre o vetor ate antes do char '\0'
+    for (i = 0; i < tam-1; i++)
+    {
+        fprintf(stdout, "%c", frs[i]); // imprime 1 char
+    }
 }
 
 int main()
 {
     int i, num_casos_teste;
-    char frase[1151], bn;
+    char frase[1101], bn;
 
     fscanf(stdin, "%d", &num_casos_teste); // le da entrada padrao o numero de casos de teste
 
     fscanf(stdin, "%c", &bn); // le da entrada padrao caractere especial de quebra de linha, '\n'
 
-    for (i = 1; i <= num_casos_teste; i++)
+    for (i = 0; i < num_casos_teste; i++)
     {
-        fgets(frase, 1150, stdin); // le a frase da entrada padrao
+        fgets(frase, 1100, stdin); // le a frase da entrada padrao
 
-        criptografa_frase( frase, strlen(frase) );
+        criptografa_frase( frase, strlen(frase) ); // funcao principal que criptografa a frase
+
+        fprintf(stdout, "\n"); // imprime uma quebra de linha entre cada resultado
     }
 
     return 0;
