@@ -1,6 +1,6 @@
 /* ****************************************************************************
 
-    PRAZO DE ENTREGA: 22-10-2015 (quarta) as 23h55
+    PRAZO DE ENTREGA: 22-10-2015 (quinta) as 23h55
 
 URI Online Judge | 1661
 Comércio de Vinhos na Gergóvia
@@ -56,13 +56,86 @@ Exemplo de Saída
 9
 9000
 
+dica: Muda todas as suas variáveis para long long int, e imprime ela com %lld, costuma funfar.
+
 **************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 
+#define TRUE    1
+
+// funcao que retorna o modulo do valor recebido como parametro
+long long int modulo (long long int n)
+{
+    long long int res;
+
+    if (n >= 0)
+        res = n;    // retorna o valor de 'n'
+    else
+        res = -n;   // retorna o oposto de 'n'
+
+    return res;
+}
+
+void comercio_vinhos(signed int *hab, int qt_hab)
+{
+    long long int min_unid_trab = 0;
+
+    int i;
+    for (i = 0; i < qt_hab; i++)
+    {
+        min_unid_trab += modulo(hab[i]); // cada garrafa a ser vendida/comprada sera convertida em uma unid de trab
+
+        // controle para nao exceder o limite do vetor (seg fault)
+        if (i < qt_hab-1)
+        {
+            hab[i+1] += hab[i]; // transporta as garrafas de vinho para o vizinho adj
+            //hab[i] = 0;
+        }
+    }
+
+    fprintf(stdout, "%lld", min_unid_trab); // imprime o resultado final
+}
+
+/*
+void imprime_vetor (signed int *hab, int qt_hab)
+{
+    int j;
+    for (j = 0; j < qt_hab; j++)
+        fprintf(stdout, "%d ", hab[j]);
+    fprintf(stdout, "\n");
+}*/
+
 int main()
 {
-    printf("Hello world!\n");
-    return 0;
+    int i, num_hab; // (2 ≤ num_hab ≤ 100000)
+
+    while ( TRUE )
+    {
+        fscanf(stdin, "%d", &num_hab); // le da entrada padrao o numero de habitantes
+
+        // interrompe o loop caso o valor lido seja a condicao de terminacao (0).
+        if ( num_hab == 0 )
+            break;
+
+        // realiza a execucao normal do programa
+        else
+        {
+            // aloca memoria para o vetor de habitantes
+            signed int *habitantes = (signed int*) calloc(num_hab, sizeof(signed int) );
+
+            // le da entrada padrao os valores de cada habitante
+            for (i = 0; i < num_hab; i++)
+            {
+                fscanf(stdin, "%d", &habitantes[i]);
+            }
+
+            comercio_vinhos(habitantes, num_hab);   // funcao principal que calcula as unidades de trabalho
+
+            fprintf(stdout, "\n");                  // imprime uma quebra de linha entre os resultados
+
+            free(habitantes);                       // desaloca a memoria do vetor
+        }
+    }
 }
